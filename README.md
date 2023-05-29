@@ -1,0 +1,2 @@
+TO DO: want to create a song reccomendation algorithm that goes off some interesting piece of data
+  |-> thinking political quiz scores, easiest political compass: enter the values you got from the quiz then see what the algorithm would reccomend
