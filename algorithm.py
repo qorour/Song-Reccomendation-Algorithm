@@ -15,14 +15,24 @@ data = {
 df = pd.read_csv('test-ratings-data.csv') 
 #print(df)
 
+my_ratings = { 'Name':'Quinn',
+               'Stronger Rating': 5,
+               'CallMeMaybe Rating': 4,
+               'RingOfFire Rating': 5,
+               'StairwayToHeaven Rating': 2
+}
 
+df = df.append(my_ratings, ignore_index = True)
+print(df)
+ratings=df.fillna(3) # filling all nulls so doesn't ruin formula w/3 vals (neutral)
 
 def distance_form(person1,person2): # used to find person closest to song ratings to then help make predictions on new entry
   c = euclidean(person1,person2)
   return c
 
 def closest_person(person):
-  current = ratings.loc[person]
+  current = ratings.loc[ratings['Name'] == person]
+  print("current:")
   print(current)
   closest_person=''
   closest_distance=float('inf')
@@ -38,17 +48,7 @@ def closest_person(person):
 
   return closest_person
 
-my_ratings = { 'Name':'Quinn',
-               'Stronger Rating': 5,
-               'CallMeMaybe Rating': 4,
-               'RingOfFire Rating': 5,
-               'StairwayToHeaven Rating': 2
-}
-df = df.append(my_ratings, ignore_index = True)
-print(df)
-ratings=df.fillna(3) # filling all nulls so doesn't ruin formula w/3 vals (neutral)
-
 closest_distance=float('inf')
 print("I'm most similar to:")
-print(closest_person('Quinn'))
+print(closest_person('Farmer Pete'))
 print(closest_distance)
