@@ -12,7 +12,7 @@ data = {
 # |-> thinking political quiz scores, easiest political compass: enter the values you got from the quiz then see what the algorithm would reccomend
 # Getting some guidance from: https://towardsdatascience.com/a-simple-song-recommender-system-in-python-tutorial-3e4c111198d6
 
-df = pd.read_csv('test-ratings-data.csv') 
+df = pd.read_csv('test-ratings-data.csv', index_col=0) 
 #print(df)
 
 my_ratings = { 'Name':'Quinn',
@@ -38,13 +38,22 @@ def closest_person(person):
   closest_distance=float('inf')
 
   for p in ratings.itertuples():
-    print("curr p:")
+    print("curr p1:")
     print(p)
-    if p.Index==current:
+    print("curr p2:")
+    print(current)
+    print("curr p3:")
+    print(p.Index)
+    print("curr p4:")
+    print(person)
+    if p.Index==person:
+      print("curr p continue found")
       continue # if looking at current person, continue past them to find closest person that's not themself
+
     distance_to_other_person = distance_form(person,ratings.loc[p.Index])
     if distance_to_other_person < closest_distance:
-      # new highest, so make it the new closest distnace
+      print("curr p lower found")
+      # new highest, so make it the new closest distance
       closest_distance = distance_to_other_person
       closest_person = p.Index
 
