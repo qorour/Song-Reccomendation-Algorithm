@@ -32,12 +32,14 @@ def distance_form(person1,person2): # used to find person closest to song rating
 
 def closest_person(person):
   current = ratings.loc[ratings['Name'] == person]
-  print("current:")
-  print(current)
+  #print("current:")
+  #print(current)
   closest_person=''
   closest_distance=float('inf')
 
   for p in ratings.itertuples():
+    print("curr p:")
+    print(p)
     if p.Index==current:
       continue # if looking at current person, continue past them to find closest person that's not themself
     distance_to_other_person = distance_form(person,ratings.loc[p.Index])
