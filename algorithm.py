@@ -22,18 +22,22 @@ my_ratings = { 'Name':'Quinn',
                'StairwayToHeaven Rating': 2
 }
 
-df = df.append(my_ratings, ignore_index = True)
+# TO DO: looks like appending new rating completely messes up index column. Find out how to add new entries easily.
+print(my_ratings)
+#df = df.append(my_ratings, ignore_index = True)
 print(df)
 ratings=df.fillna(3) # filling all nulls so doesn't ruin formula w/3 vals (neutral)
 
 def distance_form(person1,person2): # used to find person closest to song ratings to then help make predictions on new entry
-  c = euclidean(person1,person2)
+  p1 = ratings.loc[person1]
+  p2 = ratings.loc[person2]
+  c = euclidean(p1,p2)
   return c
 
 def closest_person(person):
-  current = ratings.loc[ratings['Name'] == person]
-  #print("current:")
-  #print(current)
+  current = ratings.loc[person]
+  print("current:")
+  print(current)
   closest_person=''
   closest_distance=float('inf')
 
@@ -49,7 +53,7 @@ def closest_person(person):
     if p.Index==person:
       print("curr p continue found")
       continue # if looking at current person, continue past them to find closest person that's not themself
-
+    print("curr not the same one/is different")
     distance_to_other_person = distance_form(person,ratings.loc[p.Index])
     if distance_to_other_person < closest_distance:
       print("curr p lower found")
