@@ -26,7 +26,7 @@ my_ratings = { 'Name':'Quinn',
 print(my_ratings)
 #df = df.append(my_ratings, ignore_index = True)
 print(df)
-ratings=df.fillna(3) # filling all nulls so doesn't ruin formula w/3 vals (neutral)
+ratings=df.fillna(3) # filling all nulls w/3 vals (neutral) so doesn't ruin formula
 
 def distance_form(person1,person2): # used to find person closest to song ratings to then help make predictions on new entry
   p1 = ratings.loc[person1]
