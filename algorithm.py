@@ -35,9 +35,6 @@ def distance_form(person1,person2): # used to find person closest to song rating
   return c
 
 def closest_person(person):
-  # Check if person exists in dataset
-  if person not in ratings.index:
-    return "ERROR: user not registered"
   current = ratings.loc[person]
   closest_person=''
   global closest_distance
@@ -54,6 +51,20 @@ def closest_person(person):
 
   return closest_person
 
-name = input('What is your name?\n')
-print("You are most similar to: ", closest_person(name))
-print("with a similarity distance of: ", closest_distance)
+def add_new_person(new_person):
+  print("hi")
+  return "hi"
+
+def starting_screen():
+  # made as its own function so can call back on it whenever we finish analyizing a name
+  name = input('What is your name? You can also type "exit" to exit the program\n')
+  # Check if person exists in dataset, run appropriate functions
+  if name not in ratings.index:
+    print("ERROR: user not registered")
+    add_new_person(name)
+    return
+  else:
+    print("You are most similar to: ", closest_person(name))
+  print("with a similarity distance of: ", closest_distance)
+
+starting_screen()
