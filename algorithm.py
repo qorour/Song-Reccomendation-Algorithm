@@ -39,17 +39,23 @@ def closest_person(person,ratings):
 
 def add_new_person(new_person, ratings):
   print(ratings)
-  print("Welcome to the reccomender, new user ",new_person, "! Please rank the following songs on a scale from 1 to 5")
+  print("Welcome to the reccomender, new user",new_person,"! Please rank the following songs on a scale from 1 to 5")
   # should be a for loop solution instead of having a new line of code for each column rating
-  stronger_rating = input('Stronger by Kanye West (Hip Hop/Pop Rap)\n')
-  callmemaybe_rating = input('Call Me Maybe by Carly Rae Jepsen (Pop)\n')
-  ringoffire_rating = input('Ring of Fire by Johnny Cash (Country/Folk)\n')
-  stairwaytoheaven_rating = input('Stairway to Heaven by Led Zeppelin (Rock)\n')
+  while True:
+    try:
+      stronger_rating = int(input('Stronger by Kanye West (Hip Hop/Pop Rap)\n')) 
+      callmemaybe_rating = int(input('Call Me Maybe by Carly Rae Jepsen (Pop)\n'))
+      ringoffire_rating = int(input('Ring of Fire by Johnny Cash (Country/Folk)\n'))
+      stairwaytoheaven_rating = int(input('Stairway to Heaven by Led Zeppelin (Rock)\n'))
+      break
+    except ValueError:
+      print("ERROR: please only integers! restarting rating collection...")  
   new_row = {'Stronger Rating':stronger_rating, 'CallMeMaybe Rating':callmemaybe_rating, 'RingOfFire Rating':ringoffire_rating, 'StairwayToHeaven Rating':stairwaytoheaven_rating}
   ratings = ratings.append(pd.Series(new_row, name=new_person))
   print(ratings)
-  closest_person(new_person,ratings)
-  return "new person added"
+  close_person,close_distance = closest_person(new_person,ratings)
+  print("You are closest to: ",close_person," and have a distance of",close_distance)
+  return ratings
 
 def main():
   # made as its own function so can call back on it whenever we finish analyizing a name
@@ -62,19 +68,20 @@ def main():
                'RingOfFire Rating': 5,
                'StairwayToHeaven Rating': 2
   }
-
-  name = input('What is your name? You can also type "exit" to exit the program\n')
-  # Check if person exists in dataset, run appropriate functions
-  if name not in ratings.index:
-    print("ERROR: user not registered")
-    add_new_person(name, ratings)
-    return
-  elif name == "exit":
-    print("GOODBYE!")
-    return
-  else:
-    print("You are most similar to: ", closest_person(name,ratings)[0])
-  print("with a similarity distance of: ", closest_person(name,ratings)[1])
+  flag = 0 #keeping flag in case want to add more ends to the program vs just the exit command
+  while (flag == 0):
+    name = input('What name would you like to lookup? You can also type "exit" to exit the program\n')
+    # Check if person exists in dataset, run appropriate functions
+    if name == "exit":
+      print("GOODBYE!")
+      flag = 1
+      return
+    elif name not in ratings.index:
+      print("ERROR: user not registered")
+      add_new_person(name, ratings)
+    else:
+      print("You are most similar to: ", closest_person(name,ratings)[0])
+      print("with a similarity distance of: ", closest_person(name,ratings)[1])
 
 if __name__ == "__main__":
     main()
