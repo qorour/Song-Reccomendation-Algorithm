@@ -8,11 +8,6 @@ from user import User
 
 # Project idea/basic guidance from: https://towardsdatascience.com/a-simple-song-recommender-system-in-python-tutorial-3e4c111198d6
 
-# THINGS TO ADD:
-# - Option to add a new song to the data (and adjust scores accordingly, could just make old users a 3)
-# - Option to adjust an existing user's scores, maybe ask "do you want to adjust scores or just calculate distance?"
-# - New class that takes into account political leanings or something else?
-
 class SongRecommender:
   def __init__(self, filename):
         # begins instance with new filename and immediately loads it, only then do we run main
@@ -60,8 +55,9 @@ class SongRecommender:
         # new highest, so make it the new closest distance
         closest_distance = distance_to_other_person
         closest_person = p
+        neighbor_highest_rated_song = max(self.users[p].ratings, key=self.users[p].ratings.get)
 
-    return closest_person, closest_distance
+    return closest_person, closest_distance, neighbor_highest_rated_song
 
   def add_new_person(self,new_person):
     user_instance = User(new_person)
@@ -81,8 +77,8 @@ class SongRecommender:
       user_instance.ratings[song_name] = rating 
     
     self.update_ratings()
-    close_person,close_distance = self.closest_person(new_person)
-    print("You are closest to: ",close_person," and have a distance of",close_distance)
+    close_person,close_distance,highest_rate = self.closest_person(new_person)
+    print("You are closest to: ",close_person," and have a distance of",str(round(close_distance, 2)),". Their favorite song was",highest_rate,". Give it a chance!")
     return self.ratings
 
   def add_new_song(self, song_name, genre):
@@ -127,8 +123,10 @@ class SongRecommender:
         print("ERROR: user not registered")
         self.add_new_person(name)
       else:
-        print("You are most similar to: ", self.closest_person(name)[0])
-        print("with a similarity distance of: ", self.closest_person(name)[1])
+        close_person,close_distance,highest_rate = self.closest_person(name)
+        print("You are most similar to: ", close_person)
+        print("with a similarity distance of: ", str(round(close_distance, 2)))
+        print("Their favorie song was",highest_rate,". You should give it a try!")
 
       # Now ask if we want to add any new songs. 
       new_song_q = input("Would you like to add a new song? Type 'Y' if yes\n")
